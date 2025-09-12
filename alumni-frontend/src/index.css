@@ -1,0 +1,119 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Responsive typography */
+@media (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/* Ensure proper scaling on zoom */
+@media (max-width: 1200px) {
+  .MuiContainer-root {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* Fix for zoomed out views */
+@media (max-width: 1000px) {
+  .MuiTypography-h2 {
+    font-size: 2rem !important;
+  }
+  
+  .MuiTypography-h3 {
+    font-size: 1.5rem !important;
+  }
+  
+  .MuiTypography-h4 {
+    font-size: 1.25rem !important;
+  }
+  
+  .MuiTypography-h5 {
+    font-size: 1.125rem !important;
+  }
+  
+  .MuiTypography-h6 {
+    font-size: 1rem !important;
+  }
+}
+
+/* Mobile-first responsive utilities */
+.responsive-text {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+.responsive-heading {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.responsive-subheading {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+/* Fix for very small screens */
+@media (max-width: 360px) {
+  .MuiButton-root {
+    font-size: 0.75rem !important;
+    padding: 4px 8px !important;
+  }
+  
+  .MuiIconButton-root {
+    padding: 4px !important;
+  }
+  
+  .MuiTextField-root {
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Ensure proper image scaling */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix for flex containers on small screens */
+@media (max-width: 600px) {
+  .MuiBox-root {
+    flex-direction: column !important;
+  }
+  
+  .MuiGrid-container {
+    margin: 0 !important;
+  }
+  
+  .MuiGrid-item {
+    padding: 8px !important;
+  }
+}
