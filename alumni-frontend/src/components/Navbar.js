@@ -8,7 +8,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { Menu as MenuIconIcon, Home as HomeIcon, People as PeopleIcon, Person as PersonIcon, ThumbUp as ThumbUpIcon, Message as MessageIcon, MoreVert as MoreVertIcon, School as SchoolIcon } from '@mui/icons-material';
-import api from '../utils/api';
+import api, { 
+  getNotifications, 
+  markNotificationRead, 
+  markAllNotificationsRead 
+} from '../utils/api';
 import Tooltip from '@mui/material/Tooltip';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -53,7 +57,7 @@ function Navbar({ toggleTheme, mode }) {
       if (!user) return;
       setNotifLoading(true);
       try {
-        const res = await api.getNotifications();
+        const res = await getNotifications();
         setNotifications(res.data);
         setNotifUnread(res.data.filter(n => !n.read).length);
       } catch {}
@@ -107,11 +111,15 @@ function Navbar({ toggleTheme, mode }) {
   const handleNotifClose = () => setNotifAnchorEl(null);
   const handleNotifClick = async (notif) => {
     if (!notif.read) {
-      await api.markNotificationRead(notif.id);
+      await markNotificationRead(notif.id);
       setNotifications((prev) => prev.map(n => n.id === notif.id ? { ...n, read: true } : n));
       setNotifUnread((prev) => Math.max(0, prev - 1));
     }
-    if (notif.link) {
+
+    const messageText = (notif.message || '').toLowerCase();
+    if (messageText.includes('connection request')) {
+      navigate('/my-connections');
+    } else if (notif.link) {
       if (notif.link.startsWith('/')) {
         navigate(notif.link);
       } else {
@@ -149,7 +157,7 @@ function Navbar({ toggleTheme, mode }) {
   const handleRefreshNotifications = async () => {
     setNotifLoading(true);
     try {
-      const res = await api.getNotifications();
+      const res = await getNotifications();
       setNotifications(res.data);
       setNotifUnread(res.data.filter(n => !n.read).length);
     } catch {}
@@ -159,7 +167,7 @@ function Navbar({ toggleTheme, mode }) {
   const handleMarkAllRead = async () => {
     setNotifLoading(true);
     try {
-      await api.markAllNotificationsRead();
+      await markAllNotificationsRead();
       setNotifications((prev) => prev.map(n => ({ ...n, read: true })));
       setNotifUnread(0);
     } catch {}

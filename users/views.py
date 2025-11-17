@@ -21,7 +21,7 @@ from .serializers import (
     PostCommentLikeSerializer,
 )
 from rest_framework.exceptions import AuthenticationFailed, PermissionDenied
-from .recommendation import recommend_alumni_enhanced_cosine
+from .recommendation import recommend_alumni_enhanced_cosine, WORD_SIMILARITY
 from django.db.models import Count, Q
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -82,13 +82,51 @@ class AlumniSearchView(generics.ListAPIView):
     def get_queryset(self):
         queryset = User.objects.filter(role='alumni', approved=True)
         query = self.request.query_params.get('q', '')
+        skill = self.request.query_params.get('skill', '')
+        company = self.request.query_params.get('company', '')
+        graduation_year = self.request.query_params.get('graduation_year', '')
+        location = self.request.query_params.get('location', '')
+
         if query:
             queryset = queryset.filter(
-                Q(username__icontains=query) | # type: ignore
+                Q(username__icontains=query) |
                 Q(first_name__icontains=query) |
                 Q(last_name__icontains=query) |
                 Q(skills__icontains=query) |
                 Q(company__icontains=query)
+            )
+        if skill:
+            queryset = queryset.filter(skills__icontains=skill)
+        if company:
+            queryset = queryset.filter(company__icontains=company)
+        if graduation_year:
+            queryset = queryset.filter(graduation_year=graduation_year)
+        if location:
+            queryset = queryset.filter(location__icontains=location)
+        if skill:
+            skill_lower = skill.strip().lower()
+
+            def skill_score(user):
+                skills_text = (user.skills or '').lower()
+                skills_list = [s.strip() for s in skills_text.split(',') if s.strip()]
+                score = 0.0
+                for s in skills_list:
+                    if s == skill_lower:
+                        score += 1.0
+                    else:
+                        score += WORD_SIMILARITY.get(
+                            (skill_lower, s),
+                            WORD_SIMILARITY.get((s, skill_lower), 0.0)
+                        )
+                return score
+
+            queryset = sorted(
+                queryset,
+                key=lambda user: (
+                    -skill_score(user),
+                    (user.first_name or '').lower(),
+                    (user.last_name or '').lower(),
+                ),
             )
         return queryset
 
@@ -151,7 +189,7 @@ class ConnectionRequestViewSet(viewsets.ModelViewSet):
         Notification.objects.create(
             user=to_user,
             message=f"{self.request.user.username} sent you a connection request.",
-            link=f"/profile/{self.request.user.id}"
+            link="/my-connections"
         )
         return instance
 

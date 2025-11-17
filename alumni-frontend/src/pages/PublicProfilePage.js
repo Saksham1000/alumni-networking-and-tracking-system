@@ -11,6 +11,8 @@ import EmailIcon from '@mui/icons-material/Email';
 import PersonIcon from '@mui/icons-material/Person';
 import MessageIcon from '@mui/icons-material/Message';
 import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
 
 function PublicProfilePage() {
   const { id } = useParams();
@@ -19,11 +21,13 @@ function PublicProfilePage() {
   const [userPosts, setUserPosts] = useState([]);
   const [connectionStatus, setConnectionStatus] = useState('none');
   const [connectionId, setConnectionId] = useState(null);
+  const [incomingRequest, setIncomingRequest] = useState(false);
   const [loading, setLoading] = useState(true);
   const [postsLoading, setPostsLoading] = useState(true);
   const [error, setError] = useState('');
   const [msgLoading, setMsgLoading] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
+  const [respondLoading, setRespondLoading] = useState(false);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
 
@@ -49,13 +53,16 @@ function PublicProfilePage() {
             if (req) {
               setConnectionStatus(req.status);
               setConnectionId(req.id);
+              setIncomingRequest(req.to_user.id === userId);
             } else {
               setConnectionStatus('none');
               setConnectionId(null);
+              setIncomingRequest(false);
             }
           } catch (connErr) {
             console.error('Error fetching connections:', connErr);
             setConnectionStatus('none');
+            setIncomingRequest(false);
           }
         }
       } catch (err) {
@@ -96,6 +103,7 @@ function PublicProfilePage() {
       const response = await api.post('/users/connections/', { to_user_id: parseInt(id) });
       setConnectionStatus('pending');
       setConnectionId(response.data.id);
+      setIncomingRequest(false);
       // No notification - just UI update
     } catch (err) {
       // Silent error handling - no notification
@@ -112,11 +120,32 @@ function PublicProfilePage() {
       await api.delete(`/users/connections/${connectionId}/`);
       setConnectionStatus('none');
       setConnectionId(null);
+      setIncomingRequest(false);
       // No notification - just UI update
     } catch (err) {
       // Silent error handling - no notification
     } finally {
       setCancelLoading(false);
+    }
+  };
+
+  const handleRespondToRequest = async (action) => {
+    if (!connectionId) return;
+
+    setRespondLoading(true);
+    try {
+      await api.post(`/users/connections/${connectionId}/${action}/`);
+      if (action === 'accept') {
+        setConnectionStatus('accepted');
+      } else {
+        setConnectionStatus('none');
+        setConnectionId(null);
+      }
+      setIncomingRequest(false);
+    } catch (err) {
+      // Silent error handling - no notification
+    } finally {
+      setRespondLoading(false);
     }
   };
 
@@ -286,27 +315,56 @@ function PublicProfilePage() {
                 </Typography>
                 
                 {connectionStatus === 'pending' ? (
-                  // PENDING STATE - Show Cancel button
-                  <Box>
-                    <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap', mb: 2 }}>
-                      <Button 
-                        variant="outlined" 
-                        color="warning"
-                        startIcon={<CancelIcon />}
-                        onClick={handleCancelRequest}
-                        disabled={cancelLoading}
-                        sx={{ 
-                          minWidth: '180px',
-                          fontWeight: 600
-                        }}
-                      >
-                        {cancelLoading ? 'Cancelling...' : 'Cancel Request'}
-                      </Button>
+                  incomingRequest ? (
+                    <Box>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        {profile?.first_name || profile?.username || 'This user'} sent you a connection request.
+                      </Typography>
+                      <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          startIcon={<CheckCircleIcon />}
+                          onClick={() => handleRespondToRequest('accept')}
+                          disabled={respondLoading}
+                          sx={{ minWidth: '150px', fontWeight: 600 }}
+                        >
+                          {respondLoading ? 'Updating...' : 'Accept'}
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          startIcon={<CloseIcon />}
+                          onClick={() => handleRespondToRequest('reject')}
+                          disabled={respondLoading}
+                          sx={{ minWidth: '150px', fontWeight: 600 }}
+                        >
+                          {respondLoading ? 'Updating...' : 'Decline'}
+                        </Button>
+                      </Box>
                     </Box>
-                    <Typography variant="body2" color="text.secondary">
-                      Waiting for {profile?.first_name} to accept your request
-                    </Typography>
-                  </Box>
+                  ) : (
+                    <Box>
+                      <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap', mb: 2 }}>
+                        <Button 
+                          variant="outlined" 
+                          color="warning"
+                          startIcon={<CancelIcon />}
+                          onClick={handleCancelRequest}
+                          disabled={cancelLoading}
+                          sx={{ 
+                            minWidth: '180px',
+                            fontWeight: 600
+                          }}
+                        >
+                          {cancelLoading ? 'Cancelling...' : 'Cancel Request'}
+                        </Button>
+                      </Box>
+                      <Typography variant="body2" color="text.secondary">
+                        Request sent. Waiting for {profile?.first_name || profile?.username || 'the user'} to respond.
+                      </Typography>
+                    </Box>
+                  )
                 ) : connectionStatus === 'accepted' ? (
                   // CONNECTED STATE - Show Connected button and Message option
                   <Box>
