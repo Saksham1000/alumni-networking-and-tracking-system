@@ -71,17 +71,17 @@ function AboutPage() {
     {
       icon: <ConnectIcon sx={{ fontSize: 40, color: 'secondary.main' }} />,
       title: 'Smart Recommendations',
-      description: 'Our AI-powered recommendation system helps you find the most relevant connections and opportunities.'
+      description: 'Our recommendation system helps you find the most relevant connections and opportunities.'
     },
     {
       icon: <SecurityIcon sx={{ fontSize: 40, color: 'warning.main' }} />,
       title: 'Secure Platform',
-      description: 'Your data is protected with enterprise-grade security and privacy controls.'
+      description: 'Your data is protected with security and privacy controls.'
     },
     {
       icon: <SpeedIcon sx={{ fontSize: 40, color: 'error.main' }} />,
       title: 'Real-time Updates',
-      description: 'Get instant notifications about new connections, events, and opportunities that match your interests.'
+      description: 'Get instant notifications about new connections and opportunities that match your interests.'
     }
   ];
 
