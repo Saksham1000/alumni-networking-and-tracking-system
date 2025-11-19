@@ -1,6 +1,6 @@
 # Alumni Networking System
 
-Alumni Networking System is a full-stack web platform that helps universities connect students with alumni. It ships with a Django REST + Channels backend, a React frontend, smart recommendation logic, and collaboration tooling (networking, chat, events, jobs, endorsements, reporting, and admin analytics).
+Alumni Networking System is a full-stack web platform that helps universities connect students with alumni. It ships with a Django REST + Channels backend, a React frontend, smart recommendation logic, and collaboration tooling (networking, chat, events, jobs, admin analytics).
 
 ## Architecture Summary
 
