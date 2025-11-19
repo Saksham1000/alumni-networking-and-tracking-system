@@ -1,7 +1,7 @@
 from django.db import models
 from users.models import User
 
-# Create your models here.
+
 
 class JobPost(models.Model):
     title = models.CharField(max_length=200)

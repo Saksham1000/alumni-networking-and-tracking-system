@@ -19,12 +19,12 @@ import {
   IconButton,
   InputAdornment,
   Tabs,
-  Tab
+  Tab,
+  SvgIcon
 } from '@mui/material';
 import {
   LinkedIn as LinkedInIcon,
   GitHub as GitHubIcon,
-  Twitter as TwitterIcon,
   Language as WebsiteIcon,
   Email as EmailIcon,
   Phone as PhoneIcon,
@@ -36,6 +36,12 @@ import {
 } from '@mui/icons-material';
 import api from '../utils/api';
 import PostCard from '../components/PostCard';
+
+const XIcon = (props) => (
+  <SvgIcon {...props} viewBox="0 0 16 16">
+    <path d="M16.444 0 10.651 6.653 15.92 14.5h-4.739l-3.529-4.76-4.03 4.76H0l5.937-6.98L0 0h4.739l3.262 4.47L11.698 0h4.746Z" />
+  </SvgIcon>
+);
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -728,15 +734,15 @@ function ProfilePage() {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <TextField
-                            label="Twitter Profile"
+                            label="X (Twitter) Profile"
                             value={socialLinks.twitter}
                             onChange={(e) => handleSocialLinkChange('twitter', e.target.value)}
                             fullWidth
-                            placeholder="https://twitter.com/yourusername"
+                            placeholder="https://x.com/yourusername"
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position="start">
-                                  <TwitterIcon color="primary" />
+                                  <XIcon sx={{ color: '#000000' }} />
                                 </InputAdornment>
                               ),
                             }}

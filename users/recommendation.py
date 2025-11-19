@@ -61,12 +61,52 @@ WORD_MAP = {
     'shell': [
         'bash', 'scripting', 'linux', 'automation'
     ],
+    'linux': [
+        'unix', 'system administration', 'sysadmin', 'infrastructure', 'server',
+        'networking', 'security', 'bash', 'shell', 'devops', 'operating system'
+    ],
+    # Networking & Security
+    'networking': [
+        'network', 'cisco', 'routing', 'switching', 'tcp/ip', 'dns', 'dhcp',
+        'firewall', 'vpn', 'wan', 'lan', 'infrastructure', 'security', 'ccna', 'ccnp'
+    ],
+    'cisco': [
+        'networking', 'routing', 'switching', 'ccna', 'ccnp', 'ccie', 'network',
+        'infrastructure', 'tcp/ip', 'firewall', 'security'
+    ],
+    'security': [
+        'cybersecurity', 'network security', 'information security', 'infosec',
+        'penetration testing', 'ethical hacking', 'firewall', 'vpn', 'encryption',
+        'networking', 'cisco', 'linux', 'system administration'
+    ],
+    'cybersecurity': [
+        'security', 'network security', 'information security', 'infosec',
+        'penetration testing', 'ethical hacking', 'firewall', 'vpn', 'encryption'
+    ],
     # Web Technologies
     'html': [
         'web', 'frontend', 'markup', 'css', 'html5'
     ],
     'css': [
         'web', 'frontend', 'styling', 'design', 'responsive'
+    ],
+    'figma': [
+        'design', 'ui', 'ux', 'user interface', 'user experience', 'prototyping', 'wireframing'
+    ],
+    'adobe': [
+        'adobe xd', 'design', 'ui', 'ux', 'user interface', 'user experience', 'prototyping', 'wireframing', 'photoshop', 'illustrator'
+    ],
+    'adobe xd': [
+        'design', 'ui', 'ux', 'user interface', 'user experience', 'prototyping', 'wireframing', 'adobexd', 'xd', 'adobe'
+    ],
+    'xd': [
+        'adobe xd', 'design', 'ui', 'ux', 'user interface', 'user experience', 'prototyping', 'wireframing', 'adobe'
+    ],
+    'sketch': [
+        'design', 'ui', 'ux', 'user interface', 'user experience', 'prototyping', 'wireframing'
+    ],
+    'invision': [
+        'design', 'ui', 'ux', 'user interface', 'user experience', 'prototyping', 'wireframing'
     ],
     'react': [
         'javascript', 'js', 'frontend', 'web', 'ui', 'redux', 'hooks'
@@ -253,6 +293,21 @@ WORD_MAP = {
     'system administrator': [
         'infrastructure', 'sysadmin'
     ],
+    'network engineer': [
+        'networking', 'cisco', 'routing', 'switching', 'infrastructure', 'network'
+    ],
+    'network administrator': [
+        'networking', 'cisco', 'infrastructure', 'network', 'system administration'
+    ],
+    'security engineer': [
+        'security', 'cybersecurity', 'network security', 'firewall', 'infosec'
+    ],
+    'cybersecurity analyst': [
+        'security', 'cybersecurity', 'network security', 'information security'
+    ],
+    'network security engineer': [
+        'networking', 'security', 'cybersecurity', 'cisco', 'firewall', 'network'
+    ],
     # Companies & Platforms
     'google': [
         'gcp', 'cloud', 'android', 'search'
@@ -405,6 +460,36 @@ WORD_SIMILARITY = {
     ('html', 'css'): 0.9,
     ('html', 'frontend'): 0.8,
     ('css', 'frontend'): 0.8,
+    # Design Tools
+    ('figma', 'ui'): 0.9,
+    ('figma', 'ux'): 0.9,
+    ('figma', 'design'): 0.95,
+    ('figma', 'user interface'): 0.9,
+    ('figma', 'user experience'): 0.9,
+    ('figma', 'prototyping'): 0.85,
+    ('figma', 'wireframing'): 0.85,
+    ('adobe xd', 'xd'): 1.0,
+    ('adobe xd', 'figma'): 0.9,
+    ('adobe xd', 'ui'): 0.9,
+    ('adobe xd', 'ux'): 0.9,
+    ('adobe xd', 'design'): 0.95,
+    ('adobe xd', 'user interface'): 0.9,
+    ('adobe xd', 'user experience'): 0.9,
+    ('adobe xd', 'prototyping'): 0.85,
+    ('adobe xd', 'wireframing'): 0.85,
+    ('xd', 'adobe xd'): 1.0,
+    ('xd', 'figma'): 0.9,
+    ('xd', 'ui'): 0.9,
+    ('xd', 'ux'): 0.9,
+    ('xd', 'design'): 0.95,
+    ('sketch', 'figma'): 0.9,
+    ('sketch', 'ui'): 0.9,
+    ('sketch', 'ux'): 0.9,
+    ('sketch', 'design'): 0.95,
+    ('invision', 'figma'): 0.85,
+    ('invision', 'ui'): 0.9,
+    ('invision', 'ux'): 0.9,
+    ('invision', 'design'): 0.9,
     ('react', 'frontend'): 0.9,
     ('react', 'redux'): 0.8,
     ('react', 'hooks'): 0.8,
@@ -470,6 +555,52 @@ WORD_SIMILARITY = {
     ('ui/ux designer', 'designer'): 0.9,
     ('qa engineer', 'testing'): 0.9,
     ('system administrator', 'sysadmin'): 0.95,
+    # Networking & Security
+    ('networking', 'cisco'): 0.9,
+    ('networking', 'network'): 0.95,
+    ('networking', 'routing'): 0.85,
+    ('networking', 'switching'): 0.85,
+    ('networking', 'security'): 0.8,
+    ('networking', 'infrastructure'): 0.8,
+    ('cisco', 'ccna'): 0.95,
+    ('cisco', 'ccnp'): 0.9,
+    ('cisco', 'routing'): 0.9,
+    ('cisco', 'switching'): 0.9,
+    ('cisco', 'networking'): 0.9,
+    ('cisco', 'network'): 0.9,
+    ('security', 'cybersecurity'): 0.95,
+    ('security', 'network security'): 0.9,
+    ('security', 'information security'): 0.9,
+    ('security', 'infosec'): 0.95,
+    ('security', 'firewall'): 0.85,
+    ('security', 'vpn'): 0.8,
+    ('security', 'networking'): 0.8,
+    ('security', 'linux'): 0.75,
+    ('cybersecurity', 'penetration testing'): 0.85,
+    ('cybersecurity', 'ethical hacking'): 0.85,
+    ('linux', 'unix'): 0.9,
+    ('linux', 'system administration'): 0.85,
+    ('linux', 'sysadmin'): 0.85,
+    ('linux', 'infrastructure'): 0.8,
+    ('linux', 'server'): 0.8,
+    ('linux', 'networking'): 0.75,
+    ('linux', 'security'): 0.75,
+    ('linux', 'shell'): 0.8,
+    ('linux', 'bash'): 0.8,
+    ('network engineer', 'network administrator'): 0.9,
+    ('network engineer', 'networking'): 0.95,
+    ('network engineer', 'cisco'): 0.85,
+    ('network administrator', 'networking'): 0.9,
+    ('network administrator', 'system administrator'): 0.8,
+    ('security engineer', 'cybersecurity analyst'): 0.9,
+    ('security engineer', 'security'): 0.95,
+    ('security engineer', 'cybersecurity'): 0.9,
+    ('cybersecurity analyst', 'security'): 0.95,
+    ('cybersecurity analyst', 'cybersecurity'): 0.95,
+    ('network security engineer', 'network engineer'): 0.85,
+    ('network security engineer', 'security engineer'): 0.85,
+    ('network security engineer', 'networking'): 0.9,
+    ('network security engineer', 'security'): 0.9,
     # Companies & Platforms
     ('google', 'gcp'): 0.9,
     ('google', 'android'): 0.8,
@@ -524,11 +655,21 @@ def tokenize(text):
 
 def expand_words(words):
     expanded = set(words)
-    for word in words:
-        if word in WORD_MAP:
-            expanded.update(WORD_MAP[word])
+    # Create n-grams from the words to handle multi-word skills
+    all_phrases = list(words)
+    if len(words) > 1:
+        # Add bigrams
+        for i in range(len(words) - 1):
+            bigram = f"{words[i]} {words[i+1]}"
+            all_phrases.append(bigram)
+    
+    # Expand individual words and phrases
+    for phrase in all_phrases:
+        if phrase in WORD_MAP:
+            expanded.update(WORD_MAP[phrase])
         for key, values in WORD_MAP.items():
-            if word in key or key in word:
+            # Check if phrase matches key or is a substring
+            if phrase == key or phrase in key or key in phrase:
                 expanded.update(values)
     return list(expanded)
 
